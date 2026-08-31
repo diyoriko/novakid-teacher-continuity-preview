@@ -156,9 +156,9 @@ body.anno-on .anno{display:block}
   
   <div class="seg" id="scen">
     <button data-s="normal" aria-pressed="true">1 · Teacher unavailable</button>
-    <button data-s="noslots">2 · No slots (C1)</button>
-    <button data-s="sameday">3 · Same-day (C2)</button>
-    <button data-s="third">4 · Third time (C8)</button>
+    <button data-s="noslots">2 · No slots</button>
+    <button data-s="sameday">3 · Same-day</button>
+    <button data-s="third">4 · Third time</button>
     <button data-s="subbed">5 · Substitution + auto-return</button>
   </div>
   <label><input type="checkbox" id="wide"> reschedule window: rest of first month</label>
@@ -198,7 +198,7 @@ const SCEN = {
     lede:'Anna cannot teach Sam’s lesson on Thursday 28 August, 19:00.'
   },
   noslots:{
-    note:'Scenario 2 — the case that decides the flow. The same teacher has nothing free. This is the common path, not an edge case, because the teachers new clients are matched with tend to be the busiest ones. Toggle the window switch in the rail to see why the current one-week search horizon is the real blocker.',
+    note:'Scenario 2 — the case that decides the flow. The same teacher has nothing free. This is the common path, not an edge case, because a teacher’s calendar can genuinely be full. Toggle the window switch in the rail to see why the current one-week search horizon is the real blocker.',
     urgent:false, slots:false, repeat:0,
     lede:'Anna cannot teach Sam’s lesson on Thursday 28 August, 19:00.'
   },
@@ -213,14 +213,14 @@ const SCEN = {
     lede:'Anna has been unable to teach Sam’s lesson three weeks running.'
   },
   subbed:{
-    note:'Scenario 5 — the decision taken at the latest product sync. Substitution is <b>not removed — it is demoted to the last resort</b>, and it no longer takes the pair with it: after a substituted lesson the student is <b>returned to the original teacher automatically</b>. That single rule is what the test is about, because pairs break when a substitute quietly becomes the new default teacher.',
+    note:'Scenario 5 — the current proposal. Substitution is <b>not removed — it is demoted to the last resort</b>, and it no longer takes the pair with it: after a substituted lesson the student is <b>returned to the original teacher automatically</b>. That single rule is what the test is about, because pairs break when a substitute quietly becomes the new default teacher.',
     urgent:false, slots:false, repeat:0, subbed:true,
     lede:'Maria taught Thursday’s lesson in Anna’s place.'
   }
 };
 
 const SLOTS_NEAR = [['Fri 29','17:00'],['Fri 29','18:30'],['Sat 30','11:00']];
-const SLOTS_FAR  = [['Tue 2 Sep','19:00'],['Thu 4 Sep','19:00'],['Fri 5 Sep','17:30'],['Tue 9 Sep','19:00']];
+const SLOTS_FAR  = [['Wed 3 Sep','17:30'],['Fri 5 Sep','17:30'],['Sat 6 Sep','11:00'],['Tue 9 Sep','19:00']];
 
 function log(k,v){ state.log.unshift({k,v}); render(); }
 
@@ -332,7 +332,7 @@ function openSlots(){
   const list = s.slots ? SLOTS_NEAR.concat(wide?SLOTS_FAR:[]) : (wide?SLOTS_FAR:[]);
   const body = list.length
     ? `<div class="days">${list.map(([d,t])=>`<button class="slot" onclick="doMove('${d}','${t}')">${t}<span>${d}</span></button>`).join('')}</div>`
-    : `<div class="empty"><b>Anna has nothing free in the next 7 days</b>Her next open weekly time is <b>Tue 2 September, 19:00</b> — outside the current search window.</div>`;
+    : `<div class="empty"><b>Anna has nothing free in the next 7 days</b>Her next open time is <b>Fri 5 September, 17:30</b> — outside the current search window.</div>`;
   show(`
   <div class="dlg-h">
     <div class="eyebrow">Same teacher</div>
